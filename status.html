@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Transaction Status</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">DataStore</a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Packages</a>
+        <a href="status.html" class="active">Track Order</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <section>
+      <h1>Transaction Status</h1>
+      <p>Enter the order ID from your purchase confirmation to view the current status.</p>
+    </section>
+
+    <section class="card status-card">
+      <label for="track-id">Order ID</label>
+      <input id="track-id" type="text" placeholder="e.g. ORDER-1234" />
+      <button id="check-status">Check Status</button>
+      <div id="status-result" class="status-result"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Saved status history is stored locally in your browser.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
