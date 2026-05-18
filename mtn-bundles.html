@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN Bundles | CoreLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            CoreLink
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#buy">Buy Data</a></li>
+            <li><a href="index.html#support">Support</a></li>
+            <li><a href="#" class="btn-nav">Admin Login</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="purchase-section">
+            <div class="purchase-grid">
+                <div class="purchase-copy">
+                    <span class="status-badge">MTN Turbo 5G</span>
+                    <h2>Select your MTN Bundle</h2>
+                    <p>Get high-speed data credited directly to your MTN number within minutes.</p>
+                </div>
+
+                <div class="purchase-card glass-panel glass-form">
+                    <h3>Order Details</h3>
+                    <div class="form-group">
+                        <label for="package">Select Package</label>
+                         <div class="bundle-grid" id="bundleGrid">
+        <!-- The squares -->
+        <div class="bundle-square active" data-gb="1" data-price="GHS 3.00">1<span>GB</span></div>
+        <div class="bundle-square" data-gb="2" data-price="GHS 5.50">2<span>GB</span></div>
+        <div class="bundle-square" data-gb="3" data-price="GHS 8.00">3<span>GB</span></div>
+        <div class="bundle-square" data-gb="5" data-price="GHS 10.00">5<span>GB</span></div>
+        <div class="bundle-square" data-gb="6" data-price="GHS 12.00">6<span>GB</span></div>
+        <div class="bundle-square" data-gb="7" data-price="GHS 14.50">7<span>GB</span></div>
+        <div class="bundle-square" data-gb="8" data-price="GHS 16.00">8<span>GB</span></div>
+        <div class="bundle-square" data-gb="10" data-price="GHS 20.00">10<span>GB</span></div>
+        <div class="bundle-square" data-gb="15" data-price="GHS 30.00">15<span>GB</span></div>
+        <div class="bundle-square" data-gb="25" data-price="GHS 45.00">25<span>GB</span></div>
+        <div class="bundle-square" data-gb="50" data-price="GHS 85.00">50<span>GB</span></div>
+    </div>
+    <!-- Hidden input to store the selection for your form -->
+    <input type="hidden" id="selectedBundle" value="1GB">
+</div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="024 000 0000">
+                    </div>
+                    
+                    <button onclick="handlePayment()" class="btn-primary" style="width: 100%; border:none; cursor:pointer;">
+                        Proceed to Payment
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="success-toast" class="notification success">Payment successful! Redirecting to secure checkout…</div>
+    <div id="error-toast" class="notification error">Please enter a valid phone number.</div>
+
+    <script>
+        lucide.createIcons();
+
+        function handlePayment() {
+            const phone = document.getElementById('phone').value.trim();
+            const successToast = document.getElementById('success-toast');
+            const errorToast = document.getElementById('error-toast');
+
+            if (phone.length < 10 || !/^[0-9 ]+$/.test(phone)) {
+                errorToast.classList.add('show');
+                setTimeout(() => errorToast.classList.remove('show'), 3200);
+                return;
+            }
+
+            successToast.classList.add('show');
+            setTimeout(() => {
+                successToast.classList.remove('show');
+                alert('Redirecting to Paystack Secure Checkout...');
+            }, 2200);
+        }
+    </script>
+</body>
+</html>
