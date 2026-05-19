@@ -7,14 +7,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://js.paystack.co/v1/inline.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.344.0"></script>
 </head>
 <body>
     <nav>
         <div class="logo">
             <div class="logo-icon"></div>
-            CoreLink
+            CoreLink Internet
         </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -28,9 +29,38 @@
         <section class="purchase-section">
             <div class="purchase-grid">
                 <div class="purchase-copy">
-                    <span class="status-badge">MTN Turbo 5G</span>
+                    <span class="status-badge">MTN Ghana</span>
                     <h2>Select your MTN Bundle</h2>
                     <p>Get high-speed data credited directly to your MTN number within minutes.</p>
+           <div class="data-transfer-visual">
+    <!-- Source: Tower -->
+    <div class="visual-node">
+        <i data-lucide="signal"></i>
+    </div>
+
+    <!-- The Transfer Path (Arc of Dots) -->
+    <div class="transfer-path">
+        <svg width="140" height="60" viewBox="0 0 140 60" fill="none">
+            <path id="arc-path" d="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" stroke="rgba(0,0,0,0.05)" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
+            
+            <!-- Animated dots -->
+            <circle r="3" fill="currentColor">
+                <animateMotion dur="2s" repeatCount="indefinite" path="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" />
+            </circle>
+            <circle r="3" fill="currentColor" opacity="0.6">
+                <animateMotion dur="2s" begin="0.6s" repeatCount="indefinite" path="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" />
+            </circle>
+            <circle r="3" fill="currentColor" opacity="0.3">
+                <animateMotion dur="2s" begin="1.2s" repeatCount="indefinite" path="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" />
+            </circle>
+        </svg>
+    </div>
+
+    <!-- Destination: Smartphone -->
+    <div class="visual-node phone-node">
+        <i data-lucide="smartphone"></i>
+    </div>
+</div>
                 </div>
 
                 <div class="purchase-card glass-panel glass-form">
@@ -54,48 +84,193 @@
     <!-- Hidden input to store the selection for your form -->
     <input type="hidden" id="selectedBundle" value="1GB">
 </div>
-                    <div class="price-display-container">
+                     <div class="price-display-container">
         <span class="price-label">Price:</span>
         <span id="displayPrice" class="price-amount">GHS 3.00</span>
     </div>
-                    
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
                         <input type="tel" id="phone" placeholder="024 000 0000">
                     </div>
                     
-                    <button onclick="handlePayment()" class="btn-primary" style="width: 100%; border:none; cursor:pointer;">
-                        Proceed to Payment
-                    </button>
+                   <button onclick="handlePayment()" class="btn-primary" style="width: 100%; border:none; cursor:pointer;">
+                       Proceed to Payment
+                   </button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <div id="success-toast" class="notification success">Payment successful! Redirecting to secure checkout…</div>
+    
     <div id="error-toast" class="notification error">Please enter a valid phone number.</div>
 
     <script>
         lucide.createIcons();
 
         function handlePayment() {
-            const phone = document.getElementById('phone').value.trim();
-            const successToast = document.getElementById('success-toast');
-            const errorToast = document.getElementById('error-toast');
+    const phone = document.getElementById('phone').value.trim();
+    const amountText = document.getElementById('displayPrice').innerText; 
+    const bundle = document.getElementById('selectedBundle').value; 
+    
+    // 1. Validation (We keep the error notification just in case)
+    if (phone.length < 10 || !/^[0-9 ]+$/.test(phone)) {
+        const errorToast = document.getElementById('error-toast');
+        errorToast.classList.add('show');
+        setTimeout(() => errorToast.classList.remove('show'), 3200);
+        return;
+    }
 
-            if (phone.length < 10 || !/^[0-9 ]+$/.test(phone)) {
-                errorToast.classList.add('show');
-                setTimeout(() => errorToast.classList.remove('show'), 3200);
-                return;
-            }
+    // 2. Paystack Setup
+    const customerEmail = phone + "@corelink.com"; 
+    const finalAmount = parseFloat(amountText.replace('GHS', '').trim()) * 100;
 
-            successToast.classList.add('show');
-            setTimeout(() => {
-                successToast.classList.remove('show');
-                alert('Redirecting to Paystack Secure Checkout...');
-            }, 2200);
+    let handler = PaystackPop.setup({
+        key: 'pk_live_ce69a3127d3438693f86aba5700bf4ef5b7f3014', // Ensure your key is here!
+        email: customerEmail,
+        amount: finalAmount,
+        currency: 'GHS',
+        ref: 'CL-' + Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                { display_name: "Phone Number", variable_name: "phone_number", value: phone },
+                { display_name: "Network", variable_name: "network", value: "MTN" },
+                { display_name: "Bundle", variable_name: "bundle", value: bundle }
+            ]
+        },
+        callback: function(response) {
+            // ONLY NOW do we go to the success page
+            window.location.href = `success.html?ref=${response.reference}&phone=${phone}&bundle=${bundle}&amount=${amountText}&network=MTN`;
+        },
+        onClose: function() {
+            // No success message shown if they close the window
         }
+    });
+
+    handler.openIframe();
+}
     </script>
+    <footer class="footer">
+    <div class="footer-container">
+        <!-- Column 1: Brand & About -->
+        <div class="footer-col">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                CoreLink Internet
+            </div>
+            <p class="footer-about">
+                Providing premium, high-speed data solutions for digital pioneers across Ghana. Reliable, fast, and secure.
+            </p>
+            <div class="social-links">
+                <a href="#"><i data-lucide="facebook"></i></a>
+                <a href="#"><i data-lucide="twitter"></i></a>
+                <a href="#"><i data-lucide="instagram"></i></a>
+                <a href="#"><i data-lucide="linkedin"></i></a>
+            </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#buy">Buy Data</a></li>
+                <li><a href="index.html#support">Support</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3: Networks -->
+        <div class="footer-col">
+            <h4>Networks</h4>
+            <ul>
+                <li><a href="mtn-bundles.html">MTN Ghana</a></li>
+                <li><a href="telecel-bundles.html">Telecel Ghana</a></li>
+                <li><a href="at-bundles.html">AT (AirtelTigo)</a></li>
+                <li><a href="#">Big Time Data</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 4: Contact Info -->
+        <div class="footer-col">
+            <h4>Contact Us</h4>
+            <div class="contact-item">
+                <i data-lucide="map-pin"></i>
+                <span>Accra, Ghana</span>
+            </div>
+            <div class="contact-item">
+                <i data-lucide="phone"></i>
+                <span>+233 55 639 7312</span>
+            </div>
+            <div class="contact-item">
+                <i data-lucide="mail"></i>
+                <span>support@corelink.com</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 CoreLink Premium Data. All Rights Reserved.</p>
+    </div>
+</footer>
+<script>
+    lucide.createIcons();
+    document.querySelectorAll('.bundle-square').forEach(square => {
+    square.addEventListener('click', function() {
+        // 1. Remove active class from all squares
+        document.querySelectorAll('.bundle-square').forEach(s => s.classList.remove('active'));
+        
+        // 2. Add active class to the one clicked
+        this.classList.add('active');
+        
+        // 3. Get the data from the attributes
+        const gbValue = this.getAttribute('data-gb');
+        const priceValue = this.getAttribute('data-price');
+        
+        // 4. Update the Hidden Input (for the form)
+        document.getElementById('selectedBundle').value = gbValue + "GB";
+        
+        // 5. Update the Screen Display (for the customer)
+        document.getElementById('displayPrice').innerText = priceValue;
+    });
+});
+
+
+    // 2. The Scroll Reveal Logic (using your existing CSS)
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // 3. Target the specific elements on the bundle page
+    // We target the Title, Description, the Bundle Grid, and the Checkout Card
+    document.querySelectorAll('.purchase-copy h2, .purchase-copy p, .bundle-grid, .purchase-card, .price-display-container').forEach((el) => {
+        // This ensures we do NOT animate the footer/support section
+        if (!el.closest('.footer')) {
+            el.classList.add('reveal'); // Applying your existing CSS class
+            revealObserver.observe(el);
+        }
+    });
+
+    // 4. Keep your existing Bundle Selection Logic below
+    document.querySelectorAll('.bundle-square').forEach(square => {
+        square.addEventListener('click', function() {
+            document.querySelectorAll('.bundle-square').forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            
+            const gbValue = this.getAttribute('data-gb');
+            const priceValue = this.getAttribute('data-price');
+            
+            document.getElementById('selectedBundle').value = gbValue + "GB";
+            document.getElementById('displayPrice').innerText = priceValue;
+        });
+    });
+
+   
+</script>
 </body>
+
 </html>

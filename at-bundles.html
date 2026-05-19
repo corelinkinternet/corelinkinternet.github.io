@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT Bundles | CoreLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+   <script src="https://js.paystack.co/v1/inline.js"></script> 
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@0.344.0"></script>
+</head>
+<body class="at-page"> <!-- Class added for Red/Blue gradient theme -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            CoreLi55 639 7312
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#buy">Buy Data</a></li>
+            <li><a href="index.html#support">Support</a></li>
+            <li><a href="#" class="btn-nav">Admin Login</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="purchase-section">
+            <div class="purchase-grid">
+                <div class="purchase-copy">
+                    <span class="status-badge">AT Ghana</span>
+                    <h2>Select your AT Bundle</h2>
+                    <p>Get high-speed data credited directly to your AT number within minutes.</p>
+                <div class="data-transfer-visual">
+    <!-- Source: Tower -->
+    <div class="visual-node">
+        <i data-lucide="signal"></i>
+    </div>
+
+    <!-- The Transfer Path (Arc of Dots) -->
+    <div class="transfer-path">
+        <svg width="140" height="60" viewBox="0 0 140 60" fill="none">
+            <path id="arc-path" d="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" stroke="rgba(0,0,0,0.05)" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 8" />
+            
+            <!-- Animated dots -->
+            <circle r="3" fill="currentColor">
+                <animateMotion dur="2s" repeatCount="indefinite" path="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" />
+            </circle>
+            <circle r="3" fill="currentColor" opacity="0.6">
+                <animateMotion dur="2s" begin="0.6s" repeatCount="indefinite" path="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" />
+            </circle>
+            <circle r="3" fill="currentColor" opacity="0.3">
+                <animateMotion dur="2s" begin="1.2s" repeatCount="indefinite" path="M10 50C10 50 40 10 70 10C100 10 130 50 130 50" />
+            </circle>
+        </svg>
+    </div>
+
+    <!-- Destination: Smartphone -->
+    <div class="visual-node phone-node">
+        <i data-lucide="smartphone"></i>
+    </div>
+</div>
+                </div>
+            
+
+                <div class="purchase-card glass-panel glass-form">
+                    <h3>Order Details</h3>
+                    <div class="form-group">
+                        <label for="package">Select Package</label>
+                        <div class="bundle-grid" id="bundleGrid">
+                            <div class="bundle-square active" data-gb="1" data-price="GHS 3.00">1<span>GB</span></div>
+                            <div class="bundle-square" data-gb="2" data-price="GHS 5.50">2<span>GB</span></div>
+                            <div class="bundle-square" data-gb="3" data-price="GHS 8.00">3<span>GB</span></div>
+                            <div class="bundle-square" data-gb="5" data-price="GHS 10.00">5<span>GB</span></div>
+                            <div class="bundle-square" data-gb="6" data-price="GHS 12.00">6<span>GB</span></div>
+                            <div class="bundle-square" data-gb="7" data-price="GHS 14.50">7<span>GB</span></div>
+                            <div class="bundle-square" data-gb="8" data-price="GHS 16.00">8<span>GB</span></div>
+                            <div class="bundle-square" data-gb="10" data-price="GHS 20.00">10<span>GB</span></div>
+                            <div class="bundle-square" data-gb="15" data-price="GHS 30.00">15<span>GB</span></div>
+                            <div class="bundle-square" data-gb="25" data-price="GHS 45.00">25<span>GB</span></div>
+                            <div class="bundle-square" data-gb="50" data-price="GHS 85.00">50<span>GB</span></div>
+                        </div>
+                        <input type="hidden" id="selectedBundle" value="1GB">
+                    </div>
+
+                    <div class="price-display-container">
+                        <span class="price-label">Price:</span>
+                        <span id="displayPrice" class="price-amount">GHS 3.00</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="026 000 0000"> <!-- AT Prefix -->
+                    </div>
+                    
+                    <button onclick="handlePayment()" class="btn-primary" style="width: 100%; border:none; cursor:pointer;">
+                        Proceed to Payment
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="success-toast" class="notification success">Payment successful! Redirecting to secure checkout…</div>
+    <div id="error-toast" class="notification error">Please enter a valid phone number.</div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo"><div class="logo-icon"></div>CoreLink Internet</div>
+                <p class="footer-about">Providing premium, high-speed data solutions for digital pioneers across Ghana. Reliable, fast, and secure.</p>
+                <div class="social-links">
+                    <a href="#"><i data-lucide="facebook"></i></a>
+                    <a href="#"><i data-lucide="twitter"></i></a>
+                    <a href="#"><i data-lucide="instagram"></i></a>
+                    <a href="#"><i data-lucide="linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#buy">Buy Data</a></li>
+                    <li><a href="index.html#support">Support</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Networks</h4>
+                <ul>
+                    <li><a href="mtn-bundles.html">MTN Ghana</a></li>
+                    <li><a href="telecel-bundles.html">Telecel Ghana</a></li>
+                    <li><a href="at-bundles.html">AT (AirtelTigo)</a></li>
+                    <li><a href="#">Big Time Data</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <div class="contact-item"><i data-lucide="map-pin"></i><span>Accra, Ghana</span></div>
+                <div class="contact-item"><i data-lucide="phone"></i><span>+233 55 639 7312</span></div>
+                <div class="contact-item"><i data-lucide="mail"></i><span>support@corelink.com</span></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 CoreLink Premium Data. All Rights Reserved.</p></div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Reveal logic (using existing CSS)
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.purchase-copy h2, .purchase-copy p, .bundle-grid, .purchase-card, .price-display-container').forEach((el) => {
+            if (!el.closest('.footer')) {
+                el.classList.add('reveal');
+                revealObserver.observe(el);
+            }
+        });
+
+        // Selection Logic
+        document.querySelectorAll('.bundle-square').forEach(square => {
+            square.addEventListener('click', function() {
+                document.querySelectorAll('.bundle-square').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('selectedBundle').value = this.getAttribute('data-gb') + "GB";
+                document.getElementById('displayPrice').innerText = this.getAttribute('data-price');
+            });
+        });
+
+        
+function handlePayment() {
+    // 1. Get the values currently displayed on screen
+    const phone = document.getElementById('phone').value.trim();
+    const amountText = document.getElementById('displayPrice').innerText; // e.g. "GHS 10.00"
+    const bundle = document.getElementById('selectedBundle').value; // e.g. "5GB"
+    
+    // 2. Identify the network for the receipt
+    let networkName = "MTN"; 
+    if (document.body.classList.contains('telecel-page')) networkName = "Telecel";
+    if (document.body.classList.contains('at-page')) networkName = "AT";
+
+    // 3. Validation
+    if (phone.length < 10) {
+        alert("Please enter a valid phone number.");
+        return;
+    }
+
+    // 4. Paystack Requirements (Fake email + Amount in Pesewas)
+    const customerEmail = phone + "@corelink.com"; 
+    const finalAmount = parseFloat(amountText.replace('GHS', '').trim()) * 100;
+
+    // 5. Trigger the Pop-up
+    let handler = PaystackPop.setup({
+        key: 'pk_test_d16966f441de107af2c895515e8a1d92a666103f', // PASTE YOUR KEY HERE
+        email: customerEmail,
+        amount: finalAmount,
+        currency: 'GHS',
+        ref: 'CL-' + Math.floor((Math.random() * 1000000000) + 1),
+        metadata: {
+            custom_fields: [
+                { display_name: "Phone Number", variable_name: "phone_number", value: phone },
+                { display_name: "Network", variable_name: "network", value: networkName },
+                { display_name: "Bundle Type", variable_name: "bundle_type", value: bundle }
+            ]
+        },
+        callback: function(response) {
+            // Success! Send them to the receipt page
+            window.location.href = `success.html?ref=${response.reference}&phone=${phone}&bundle=${bundle}&amount=${amountText}&network=${networkName}`;
+        },
+        onClose: function() {
+            alert('Payment cancelled.');
+        }
+    });
+
+    handler.openIframe();
+}
+    </script>
+</body>
+</html>

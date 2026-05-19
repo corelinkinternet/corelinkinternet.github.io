@@ -8,13 +8,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.344.0"></script>
 </head>
 <body>
     <nav>
         <div class="logo">
             <div class="logo-icon"></div>
-            CoreLink
+            CoreLink Internet
         </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
@@ -116,23 +116,69 @@
             </div>
         </section>
 
-        <section class="contact-section" id="support">
-            <p class="section-title">Contact Section</p>
-            <h2>Need assistance? We’re ready to help.</h2>
-            <div class="contact-grid">
-                <article class="support-card glass-panel">
-                     <i data-lucide="phone"></i>
-                    <h4>Live Support</h4>
-                    <p>Chat with our team for real-time help, bundle changes, or payment questions.</p>
-                </article>
-                <article class="support-card glass-panel">
-                    <i data-lucide="message-square"></i>
-                    <h4>Secure Checkout</h4>
-                    <p>Fast, simple payment flow with transparent confirmation and instant top-up.</p>
-                </article>
-                
+       <footer class="footer" id="support">
+    <div class="footer-container">
+        <!-- Column 1: Brand & About -->
+        <div class="footer-col">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                CoreLink Internet 
             </div>
-        </section>
+            <p class="footer-about">
+                Providing premium, high-speed data solutions for digital pioneers across Ghana. Reliable, fast, and secure.
+            </p>
+            <div class="social-links">
+                <a href="#"><i data-lucide="facebook"></i></a>
+                <a href="#"><i data-lucide="twitter"></i></a>
+                <a href="#"><i data-lucide="instagram"></i></a>
+                <a href="#"><i data-lucide="linkedin"></i></a>
+            </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#buy">Buy Data</a></li>
+                <li><a href="index.html#support">Support</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3: Networks -->
+        <div class="footer-col">
+            <h4>Networks</h4>
+            <ul>
+                <li><a href="mtn-bundles.html">MTN Ghana</a></li>
+                <li><a href="telecel-bundles.html">Telecel Ghana</a></li>
+                <li><a href="at-bundles.html">AT (AirtelTigo)</a></li>
+                <li><a href="#">Big Time Data</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 4: Contact Info -->
+        <div class="footer-col">
+            <h4>Contact Us</h4>
+            <div class="contact-item">
+                <i data-lucide="map-pin"></i>
+                <span>Accra, Ghana</span>
+            </div>
+            <div class="contact-item">
+                <i data-lucide="phone"></i>
+                <span>+233 55 639 7312</span>
+            </div>
+            <div class="contact-item">
+                <i data-lucide="mail"></i>
+                <span>support@corelink.com</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 CoreLink Premium Data. All Rights Reserved.</p>
+    </div>
+</footer>
     </main>
 
     <div id="success-toast" class="notification success">Payment successful! Redirecting to secure checkout…</div>
@@ -158,6 +204,63 @@
                 alert('Redirecting to Paystack Secure Checkout...');
             }, 2200);
         }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - 100;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            // Duration in milliseconds (1500 = 1.5 seconds) - Change this to go even slower
+            const duration = 1500; 
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                
+                // Easing function (Ease In Out Cubic)
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+
+            function ease(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
+                t -= 2;
+                return c / 2 * (t * t * t + 2) + b;
+            }
+
+            requestAnimationFrame(animation);
+        }
+    });
+});
+// Function to handle the scroll-in animation
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        }
+    });
+}, {
+    threshold: 0.1 // Triggers when 10% of the element is visible
+});
+
+// Select elements to animate, but EXCLUDE anything inside the #support footer
+document.querySelectorAll('.hero-content, .purchase-intro, .tabs-grid, .features-section, .feature-card').forEach((element) => {
+    // Only apply to elements that are NOT children of the support section
+    if (!element.closest('#support')) {
+        element.classList.add('reveal');
+        revealObserver.observe(element);
+    }
+});
     </script>
 </body>
 </html>
